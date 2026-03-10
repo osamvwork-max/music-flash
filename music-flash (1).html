@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#7C3AED">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Music Flash">
+<title>Music Flash</title>
+<style>
+/* ══════════════════════════════════
+   RESET & TOKENS
+══════════════════════════════════ */
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+:root{
+  /* カラーパレット（子ども向け・カラフル） */
+  --purple:  #7C3AED;
+  --purple2: #6D28D9;
+  --purple-lt:#EDE9FE;
+  --pink:    #EC4899;
+  --pink-lt: #FCE7F3;
+  --teal:    #0D9488;
+  --teal-lt: #CCFBF1;
+  --amber:   #F59E0B;
+  --amber-lt:#FEF3C7;
+  --green:   #16A34A;
+  --green-lt:#DCFCE7;
+  --red:     #DC2626;
+  --red-lt:  #FEE2E2;
+  --blue:    #2563EB;
+  --blue-lt: #DBEAFE;
+
+  --bg:      #F5F3FF;
+  --white:   #FFFFFF;
+  --ink:     #1E1B4B;
+  --sub:     #5B5B8A;
+  --muted:   #9896B8;
+  --line:    #E5E3F3;
+
+  --r:   20px;
+  --r-sm:12px;
+  --r-xs:8px;
+  --shadow:    0 4px 20px rgba(124,58,237,0.12);
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
+  --shadow-lg: 0 8px 32px rgba(124,58,237,0.18);
+}
+html,body{height:100%;overflow:hidden;background:var(--bg);}
+body{
+  font-family:-apple-system,'Hiragino Sans','Yu Gothic UI',sans-serif;
+  color:var(--ink);
+  display:flex;justify-content:center;
+}
+#app{
+  width:100%;max-width:480px;height:100%;
+  display:flex;flex-direction:column;
+  background:var(--bg);overflow:hidden;position:relative;
+}
+
+/* ══ SCREENS ══ */
+.screen{display:none;flex-direction:column;flex:1;overflow:hidden;}
+.screen.active{display:flex;}
+
+/* ══ 共通ヘッダー ══ */
+.pg-header{
+  background:var(--white);
+  padding:16px 20px 14px;
+  border-bottom:1px solid var(--line);
+  display:flex;align-items:center;gap:12px;
+  flex-shrink:0;
+  box-shadow:var(--shadow-sm);
+}
+.pg-back{
+  width:40px;height:40px;border-radius:12px;
+  background:var(--bg);border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  font-size:20px;flex-shrink:0;transition:background 0.15s;
+}
+.pg-back:active{background:var(--line);}
+.pg-title{font-size:20px;font-weight:700;color:var(--ink);}
+.pg-sub{font-size:12px;color:var(--muted);margin-top:1px;}
+
+/* スクロール本体 */
+.scroll{overflow-y:auto;flex:1;padding:20px 16px 40px;-webkit-overflow-scrolling:touch;}
+
+/* ══════════════════════════════════
+   1. ホーム画面
+══════════════════════════════════ */
+.home-hero{
+  background:linear-gradient(135deg,var(--purple) 0%,var(--pink) 100%);
+  margin:0 0 24px;
+  padding:32px 24px 28px;
+  border-radius:0 0 32px 32px;
+  color:var(--white);
+  flex-shrink:0;
+}
+.home-logo{font-size:32px;font-weight:800;letter-spacing:-0.02em;}
+.home-tagline{font-size:14px;opacity:0.85;margin-top:4px;}
+
+.mode-grid{display:flex;flex-direction:column;gap:14px;}
+
+.mode-card{
+  background:var(--white);
+  border-radius:var(--r);
+  padding:22px 20px;
+  display:flex;align-items:center;gap:16px;
+  cursor:pointer;
+  box-shadow:var(--shadow-sm);
+  border:2px solid transparent;
+  transition:all 0.15s;
+  user-select:none;
+}
+.mode-card:active{transform:scale(0.98);}
+
+.mode-card.teacher{border-color:var(--teal);}
+.mode-card.student{border-color:var(--pink);}
+.mode-card.settings-card{border-color:var(--amber);}
+
+.mode-icon{
+  width:56px;height:56px;border-radius:16px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:28px;flex-shrink:0;
+}
+.mode-card.teacher .mode-icon{background:var(--teal-lt);}
+.mode-card.student  .mode-icon{background:var(--pink-lt);}
+.mode-card.settings-card .mode-icon{background:var(--amber-lt);}
+
+.mode-body{}
+.mode-title{font-size:18px;font-weight:700;color:var(--ink);}
+.mode-desc{font-size:13px;color:var(--sub);margin-top:3px;line-height:1.4;}
+
+.mode-arrow{margin-left:auto;font-size:20px;color:var(--muted);}
+
+/* ══════════════════════════════════
+   2. コース選択
+══════════════════════════════════ */
+.course-intro{
+  background:var(--white);border-radius:var(--r);
+  padding:16px 18px;margin-bottom:20px;
+  box-shadow:var(--shadow-sm);
+  display:flex;align-items:center;gap:12px;
+}
+.course-intro-icon{font-size:28px;}
+.course-intro-text{font-size:14px;color:var(--sub);line-height:1.5;}
+.course-intro-text b{color:var(--ink);}
+
+.course-list{display:flex;flex-direction:column;gap:12px;}
+
+.course-btn{
+  background:var(--white);
+  border-radius:var(--r);
+  padding:20px 22px;
+  display:flex;align-items:center;gap:16px;
+  cursor:pointer;
+  box-shadow:var(--shadow-sm);
+  border:2.5px solid var(--line);
+  transition:all 0.15s;
+  user-select:none;
+}
+.course-btn:active{transform:scale(0.98);}
+.course-btn.c1{border-color:var(--blue); }
+.course-btn.c2{border-color:var(--purple);}
+.course-btn.c3{border-color:var(--pink); }
+
+.course-badge{
+  width:52px;height:52px;border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;font-weight:800;flex-shrink:0;
+}
+.course-btn.c1 .course-badge{background:var(--blue-lt);color:var(--blue);}
+.course-btn.c2 .course-badge{background:var(--purple-lt);color:var(--purple);}
+.course-btn.c3 .course-badge{background:var(--pink-lt);color:var(--pink);}
+
+.course-info{}
+.course-name{font-size:18px;font-weight:700;}
+.course-btn.c1 .course-name{color:var(--blue);}
+.course-btn.c2 .course-name{color:var(--purple);}
+.course-btn.c3 .course-name{color:var(--pink);}
+.course-desc{font-size:13px;color:var(--sub);margin-top:3px;}
+.course-total{font-size:11px;color:var(--muted);margin-top:2px;font-weight:600;}
+
+/* ══════════════════════════════════
+   3. 先生モード フラッシュ
+══════════════════════════════════ */
+.teacher-header{
+  background:var(--white);
+  padding:12px 16px;
+  border-bottom:1px solid var(--line);
+  display:flex;align-items:center;justify-content:space-between;
+  flex-shrink:0;
+  box-shadow:var(--shadow-sm);
+}
+.t-back{
+  padding:8px 14px;border-radius:var(--r-xs);
+  background:var(--bg);border:none;cursor:pointer;
+  font-size:14px;font-weight:600;color:var(--sub);
+  transition:background 0.15s;
+}
+.t-back:active{background:var(--line);}
+.t-badge{
+  padding:6px 14px;border-radius:20px;
+  background:var(--teal-lt);color:var(--teal);
+  font-size:13px;font-weight:700;
+}
+.t-count{font-size:14px;font-weight:600;color:var(--muted);min-width:48px;text-align:right;}
+
+.prog-track{height:5px;background:var(--line);flex-shrink:0;}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--purple),var(--pink));width:0%;transition:width 0.4s ease;border-radius:3px;}
+
+.teacher-body{
+  flex:1;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:20px 16px 24px;gap:20px;overflow:hidden;
+}
+
+/* 五線カード */
+.staff-card{
+  background:var(--white);
+  border-radius:var(--r);
+  padding:24px 12px 16px;
+  box-shadow:var(--shadow-lg);
+  width:100%;
+  display:flex;flex-direction:column;align-items:center;
+  border:2px solid var(--line);
+  transition:transform 0.1s;
+}
+.staff-card svg{width:100%;height:auto;display:block;}
+
+/* 答え表示エリア（先生モード） */
+.teacher-answer{
+  display:flex;gap:16px;justify-content:center;flex-wrap:wrap;
+  animation:popIn 0.2s ease;
+}
+@keyframes popIn{from{opacity:0;transform:scale(0.85);}to{opacity:1;transform:scale(1);}}
+
+.t-ans-note{text-align:center;}
+.t-ans-kana{
+  font-size:56px;font-weight:800;color:var(--purple);
+  line-height:1;letter-spacing:-0.02em;
+}
+.t-ans-en{font-size:13px;color:var(--muted);font-weight:600;margin-top:4px;letter-spacing:0.06em;}
+
+/* 先生モード操作ボタン */
+.teacher-btns{
+  display:flex;gap:12px;width:100%;max-width:400px;
+}
+.t-btn{
+  flex:1;padding:18px 10px;border:none;border-radius:var(--r);
+  font-size:16px;font-weight:700;cursor:pointer;
+  transition:transform 0.1s,opacity 0.1s;
+  box-shadow:var(--shadow-sm);
+}
+.t-btn:active{transform:scale(0.97);}
+.t-btn-answer{background:var(--amber-lt);color:var(--amber);}
+.t-btn-next{background:linear-gradient(135deg,var(--purple),var(--pink));color:var(--white);box-shadow:var(--shadow);}
+
+/* ══════════════════════════════════
+   4. 自習モード フラッシュ
+══════════════════════════════════ */
+.student-header{
+  background:var(--white);
+  padding:12px 16px;
+  border-bottom:1px solid var(--line);
+  display:flex;align-items:center;justify-content:space-between;
+  flex-shrink:0;
+  box-shadow:var(--shadow-sm);
+}
+.s-badge{
+  padding:6px 14px;border-radius:20px;
+  background:var(--pink-lt);color:var(--pink);
+  font-size:13px;font-weight:700;
+}
+.s-score{
+  display:flex;gap:12px;
+}
+.s-score-item{text-align:center;}
+.s-score-num{font-size:20px;font-weight:800;line-height:1;}
+.s-score-num.ok{color:var(--green);}
+.s-score-num.ng{color:var(--red);}
+.s-score-lbl{font-size:10px;color:var(--muted);font-weight:600;margin-top:1px;}
+
+.student-body{
+  flex:1;display:flex;flex-direction:column;
+  align-items:center;
+  padding:14px 16px 16px;gap:12px;overflow:hidden;
+}
+
+/* 入力進捗表示 */
+.input-progress{
+  display:flex;gap:10px;justify-content:center;align-items:center;
+  background:var(--white);border-radius:var(--r-sm);
+  padding:10px 20px;
+  box-shadow:var(--shadow-sm);
+  width:100%;max-width:380px;
+  min-height:52px;
+  flex-wrap:wrap;
+}
+.ip-slot{
+  display:flex;align-items:center;gap:6px;
+}
+.ip-kana{
+  font-size:22px;font-weight:800;color:var(--purple);
+  min-width:36px;text-align:center;
+}
+.ip-empty{
+  font-size:22px;font-weight:800;color:var(--line);
+  min-width:36px;text-align:center;
+}
+.ip-arrow{font-size:16px;color:var(--muted);}
+
+/* 音名ボタングリッド */
+.note-btns{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:8px;
+  width:100%;max-width:400px;
+}
+.note-btn{
+  padding:18px 4px;
+  border:none;border-radius:var(--r-sm);
+  font-size:20px;font-weight:800;cursor:pointer;
+  transition:transform 0.08s,box-shadow 0.08s;
+  box-shadow:0 4px 0 rgba(0,0,0,0.12);
+  user-select:none;
+}
+.note-btn:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,0.12);}
+
+/* 音名ごとの色 */
+.nb-do  {background:#FEE2E2;color:#B91C1C;}
+.nb-re  {background:#FEF3C7;color:#B45309;}
+.nb-mi  {background:#D1FAE5;color:#065F46;}
+.nb-fa  {background:#DBEAFE;color:#1D4ED8;}
+.nb-so  {background:#EDE9FE;color:#5B21B6;}
+.nb-la  {background:#FCE7F3;color:#9D174D;}
+.nb-si  {background:#E0F2FE;color:#075985;}
+.nb-back{background:var(--bg);color:var(--sub);font-size:16px;}
+
+/* 正誤フィードバック */
+.feedback-overlay{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  z-index:200;gap:12px;
+  animation:fadeIn 0.15s ease;
+}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+.feedback-overlay.correct{background:rgba(22,163,74,0.92);}
+.feedback-overlay.wrong{background:rgba(220,38,38,0.92);}
+.feedback-big{font-size:80px;line-height:1;}
+.feedback-text{font-size:28px;font-weight:800;color:white;}
+.feedback-sub{font-size:16px;color:rgba(255,255,255,0.85);font-weight:600;}
+.feedback-next{
+  margin-top:8px;padding:16px 48px;
+  background:white;border:none;border-radius:var(--r);
+  font-size:18px;font-weight:800;cursor:pointer;
+  transition:transform 0.1s;
+}
+.feedback-overlay.correct .feedback-next{color:var(--green);}
+.feedback-overlay.wrong   .feedback-next{color:var(--red);}
+.feedback-next:active{transform:scale(0.97);}
+
+/* ══════════════════════════════════
+   5. 設定画面
+══════════════════════════════════ */
+.settings-section{margin-bottom:24px;}
+.settings-section-title{
+  font-size:12px;font-weight:700;
+  color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;
+  margin-bottom:10px;padding-left:4px;
+}
+.settings-card{
+  background:var(--white);border-radius:var(--r);
+  overflow:hidden;box-shadow:var(--shadow-sm);
+}
+.settings-row{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 18px;border-bottom:1px solid var(--line);
+}
+.settings-row:last-child{border-bottom:none;}
+.settings-label{font-size:16px;font-weight:600;color:var(--ink);}
+.settings-desc{font-size:12px;color:var(--muted);margin-top:2px;}
+
+/* トグルスイッチ */
+.toggle{
+  width:52px;height:30px;border-radius:15px;
+  background:var(--line);border:none;cursor:pointer;
+  position:relative;transition:background 0.2s;flex-shrink:0;
+}
+.toggle.on{background:var(--purple);}
+.toggle::after{
+  content:'';position:absolute;
+  top:3px;left:3px;
+  width:24px;height:24px;border-radius:50%;
+  background:white;box-shadow:var(--shadow-sm);
+  transition:left 0.2s;
+}
+.toggle.on::after{left:25px;}
+
+/* 音域選択チップ */
+.chip-grid{
+  display:flex;flex-wrap:wrap;gap:8px;padding:14px 18px;
+}
+.range-chip{
+  padding:8px 16px;border-radius:20px;
+  background:var(--bg);border:2px solid var(--line);
+  font-size:14px;font-weight:600;color:var(--sub);
+  cursor:pointer;transition:all 0.15s;user-select:none;
+}
+.range-chip.active{
+  background:var(--purple-lt);border-color:var(--purple);color:var(--purple);
+}
+
+/* 記号選択 */
+.clef-btns{display:flex;gap:8px;padding:14px 18px;}
+.clef-btn{
+  flex:1;padding:12px;border-radius:var(--r-sm);
+  background:var(--bg);border:2px solid var(--line);
+  font-size:15px;font-weight:700;color:var(--sub);
+  cursor:pointer;text-align:center;transition:all 0.15s;
+}
+.clef-btn.active{background:var(--purple-lt);border-color:var(--purple);color:var(--purple);}
+
+/* アニメ */
+@keyframes cardIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+.card-enter{animation:cardIn 0.18s ease;}
+
+@keyframes slideIn{from{opacity:0;transform:translateX(20px);}to{opacity:1;transform:translateX(0);}}
+.slide-in{animation:slideIn 0.22s ease;}
+</style>
+</head>
+<body>
+<div id="app">
+
+<!-- ══════════ 1. ホーム ══════════ -->
+<div id="home-screen" class="screen active">
+  <div class="home-hero">
+    <div class="home-logo">🎵 Music Flash</div>
+    <div class="home-tagline">音符フラッシュ学習アプリ</div>
+  </div>
+  <div class="scroll">
+    <div class="mode-grid">
+      <div class="mode-card teacher" onclick="goMode('teacher')">
+        <div class="mode-icon">👩‍🏫</div>
+        <div class="mode-body">
+          <div class="mode-title">先生モード</div>
+          <div class="mode-desc">レッスン中に音符を読ませる</div>
+        </div>
+        <div class="mode-arrow">›</div>
+      </div>
+      <div class="mode-card student" onclick="goMode('student')">
+        <div class="mode-icon">🌟</div>
+        <div class="mode-body">
+          <div class="mode-title">自習モード</div>
+          <div class="mode-desc">ひとりで音符の練習をする</div>
+        </div>
+        <div class="mode-arrow">›</div>
+      </div>
+      <div class="mode-card settings-card" onclick="goSettings()">
+        <div class="mode-icon">⚙️</div>
+        <div class="mode-body">
+          <div class="mode-title">設定</div>
+          <div class="mode-desc">音域・記号・サウンド設定</div>
+        </div>
+        <div class="mode-arrow">›</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ 2. コース選択 ══════════ -->
+<div id="course-screen" class="screen">
+  <div class="pg-header">
+    <button class="pg-back" onclick="goHome()">‹</button>
+    <div>
+      <div class="pg-title" id="course-mode-label">先生モード</div>
+      <div class="pg-sub">コースを選んでください</div>
+    </div>
+  </div>
+  <div class="scroll">
+    <div class="course-intro" id="course-intro">
+      <div class="course-intro-icon">📖</div>
+      <div class="course-intro-text" id="course-intro-text">コースを選んでスタート！</div>
+    </div>
+    <div class="course-list">
+      <div class="course-btn c1" onclick="startFlash(1)">
+        <div class="course-badge">1</div>
+        <div class="course-info">
+          <div class="course-name">1音コース</div>
+          <div class="course-desc">音符が1つ表示されます</div>
+          <div class="course-total" id="total1">— 通り</div>
+        </div>
+        <div class="mode-arrow" style="color:var(--blue)">›</div>
+      </div>
+      <div class="course-btn c2" onclick="startFlash(2)">
+        <div class="course-badge">2</div>
+        <div class="course-info">
+          <div class="course-name">2音コース</div>
+          <div class="course-desc">音符が2つ表示されます</div>
+          <div class="course-total" id="total2">— 通り</div>
+        </div>
+        <div class="mode-arrow" style="color:var(--purple)">›</div>
+      </div>
+      <div class="course-btn c3" onclick="startFlash(3)">
+        <div class="course-badge">3</div>
+        <div class="course-info">
+          <div class="course-name">3音コース</div>
+          <div class="course-desc">音符が3つ表示されます</div>
+          <div class="course-total" id="total3">— 通り</div>
+        </div>
+        <div class="mode-arrow" style="color:var(--pink)">›</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ 3. 先生モード ══════════ -->
+<div id="teacher-screen" class="screen" style="position:relative;">
+  <div class="teacher-header">
+    <button class="t-back" onclick="backToCourse()">‹ 戻る</button>
+    <div class="t-badge" id="t-badge">ト音記号</div>
+    <div class="t-count" id="t-count">0 問</div>
+  </div>
+  <div class="prog-track"><div class="prog-fill" id="t-prog"></div></div>
+
+  <div class="teacher-body">
+    <div class="staff-card" id="t-staff-card">
+      <svg id="t-staff-svg" viewBox="0 0 360 160" xmlns="http://www.w3.org/2000/svg"></svg>
+    </div>
+
+    <div class="teacher-answer" id="t-answer" style="display:none;"></div>
+
+    <div class="teacher-btns">
+      <button class="t-btn t-btn-answer" id="t-ans-btn" onclick="teacherReveal()">答えを見る</button>
+      <button class="t-btn t-btn-next"   onclick="teacherNext()">次へ →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ 4. 自習モード ══════════ -->
+<div id="student-screen" class="screen" style="position:relative;">
+  <div class="student-header">
+    <button class="t-back" onclick="backToCourse()">‹ 戻る</button>
+    <div class="s-badge" id="s-badge">自習モード</div>
+    <div class="s-score">
+      <div class="s-score-item">
+        <div class="s-score-num ok" id="s-ok">0</div>
+        <div class="s-score-lbl">正解</div>
+      </div>
+      <div class="s-score-item">
+        <div class="s-score-num ng" id="s-ng">0</div>
+        <div class="s-score-lbl">不正解</div>
+      </div>
+    </div>
+  </div>
+  <div class="prog-track"><div class="prog-fill" id="s-prog"></div></div>
+
+  <div class="student-body">
+    <!-- 入力進捗 -->
+    <div class="input-progress" id="s-progress-row"></div>
+
+    <!-- 五線カード -->
+    <div class="staff-card" id="s-staff-card">
+      <svg id="s-staff-svg" viewBox="0 0 360 160" xmlns="http://www.w3.org/2000/svg"></svg>
+    </div>
+
+    <!-- 音名ボタン -->
+    <div class="note-btns" id="note-btns">
+      <button class="note-btn nb-do"  onclick="inputNote('ド')">ド</button>
+      <button class="note-btn nb-re"  onclick="inputNote('レ')">レ</button>
+      <button class="note-btn nb-mi"  onclick="inputNote('ミ')">ミ</button>
+      <button class="note-btn nb-fa"  onclick="inputNote('ファ')">ファ</button>
+      <button class="note-btn nb-so"  onclick="inputNote('ソ')">ソ</button>
+      <button class="note-btn nb-la"  onclick="inputNote('ラ')">ラ</button>
+      <button class="note-btn nb-si"  onclick="inputNote('シ')">シ</button>
+      <button class="note-btn nb-back" onclick="deleteInput()">⌫</button>
+    </div>
+  </div>
+
+  <!-- 正誤フィードバック -->
+  <div class="feedback-overlay" id="feedback" style="display:none;">
+    <div class="feedback-big" id="fb-emoji"></div>
+    <div class="feedback-text" id="fb-text"></div>
+    <div class="feedback-sub"  id="fb-sub"></div>
+    <button class="feedback-next" onclick="studentNext()">つぎへ →</button>
+  </div>
+</div>
+
+<!-- ══════════ 5. 設定 ══════════ -->
+<div id="settings-screen" class="screen">
+  <div class="pg-header">
+    <button class="pg-back" onclick="goHome()">‹</button>
+    <div>
+      <div class="pg-title">設定</div>
+      <div class="pg-sub">音域・記号・サウンド</div>
+    </div>
+  </div>
+  <div class="scroll">
+
+    <!-- 音部記号 -->
+    <div class="settings-section">
+      <div class="settings-section-title">音部記号</div>
+      <div class="settings-card">
+        <div class="clef-btns">
+          <div class="clef-btn active" id="clef-both"    onclick="setClef('both')">両方</div>
+          <div class="clef-btn"        id="clef-treble"  onclick="setClef('treble')">ト音記号のみ</div>
+          <div class="clef-btn"        id="clef-bass"    onclick="setClef('bass')">ヘ音記号のみ</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 音域 -->
+    <div class="settings-section">
+      <div class="settings-section-title">音域の範囲</div>
+      <div class="settings-card">
+        <div class="chip-grid" id="range-chips">
+          <div class="range-chip active" data-range="full"   onclick="setRange(this,'full')">すべて</div>
+          <div class="range-chip"        data-range="low"    onclick="setRange(this,'low')">ド〜ソ</div>
+          <div class="range-chip"        data-range="mid"    onclick="setRange(this,'mid')">ド〜高いド</div>
+          <div class="range-chip"        data-range="high"   onclick="setRange(this,'high')">ソ〜高いド</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- サウンド -->
+    <div class="settings-section">
+      <div class="settings-section-title">サウンド</div>
+      <div class="settings-card">
+        <div class="settings-row">
+          <div>
+            <div class="settings-label">音を鳴らす</div>
+            <div class="settings-desc">答え確認時にピアノ音を鳴らす</div>
+          </div>
+          <button class="toggle" id="sound-toggle" onclick="toggleSound()"></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- バージョン -->
+    <div style="text-align:center;padding:16px 0;color:var(--muted);font-size:12px;">
+      Music Flash v2.0
+    </div>
+  </div>
+</div>
+
+</div><!-- #app -->
+
+<script>
+/* ══════════════════════════════════
+   音符データ
+══════════════════════════════════ */
+const LINE_YS=[36,52,68,84,100];
+const MID_Y=68, SVG_W=360;
+
+// ト音記号: ド4(C4)〜ド5(C5) 8音
+const TREBLE_ALL=[
+  {name:"ド",en:"C4",y:116,ledger:[116]},
+  {name:"レ",en:"D4",y:108},
+  {name:"ミ",en:"E4",y:100},
+  {name:"ファ",en:"F4",y:92},
+  {name:"ソ",en:"G4",y:84},
+  {name:"ラ",en:"A4",y:76},
+  {name:"シ",en:"B4",y:68},
+  {name:"ド",en:"C5",y:60},
+];
+// ヘ音記号: ド2(C2)〜ド3(C3) 8音
+const BASS_ALL=[
+  {name:"ド",en:"C3",y:28,ledger:[28]},
+  {name:"シ",en:"B2",y:36},
+  {name:"ラ",en:"A2",y:44},
+  {name:"ソ",en:"G2",y:52},
+  {name:"ファ",en:"F2",y:60},
+  {name:"ミ",en:"E2",y:68},
+  {name:"レ",en:"D2",y:76},
+  {name:"ド",en:"C2",y:84},
+];
+
+/* ══ 設定 ══ */
+let cfg = loadCfg();
+function loadCfg(){
+  try{return JSON.parse(localStorage.getItem('mf_cfg')||'null')||{clef:'both',range:'full',sound:false};}
+  catch(e){return{clef:'both',range:'full',sound:false};}
+}
+function saveCfg(){try{localStorage.setItem('mf_cfg',JSON.stringify(cfg));}catch(e){}}
+
+/* ══ 状態 ══ */
+let currentMode=null;   // 'teacher' | 'student'
+let currentCount=1;     // 音の数
+let currentQ=null;      // {clef, notes}
+let tCount=0;           // 先生モード問題数
+let sOk=0,sNg=0,sTotal=0; // 自習スコア
+let sInput=[];          // 自習入力バッファ
+
+/* ══ 音符プール生成（設定反映） ══ */
+function buildPool(){
+  let t=[...TREBLE_ALL], b=[...BASS_ALL];
+  // 音域フィルタ（ト音記号基準インデックス 0=ド4, 7=ド5）
+  if(cfg.range==='low') { t=t.slice(0,5); b=b.slice(3,8); }   // ド〜ソ
+  if(cfg.range==='mid') { t=t.slice(0,8); b=b.slice(0,5); }   // ド〜高いド
+  if(cfg.range==='high'){ t=t.slice(4,8); b=b.slice(0,4); }   // ソ〜高いド
+  return {treble:t, bass:b};
+}
+
+function getPool(){
+  const p=buildPool();
+  if(cfg.clef==='treble') return [{clef:'treble',notes:p.treble}];
+  if(cfg.clef==='bass')   return [{clef:'bass',  notes:p.bass  }];
+  return [{clef:'treble',notes:p.treble},{clef:'bass',notes:p.bass}];
+}
+
+function countTotal(n){
+  const p=buildPool();
+  let sz=0;
+  if(cfg.clef==='both')   sz=p.treble.length+p.bass.length;
+  if(cfg.clef==='treble') sz=p.treble.length;
+  if(cfg.clef==='bass')   sz=p.bass.length;
+  return Math.pow(sz,n);
+}
+
+function genQuestion(n){
+  const pools=getPool();
+  const chosen=pools[Math.floor(Math.random()*pools.length)];
+  const notes=Array.from({length:n},()=>chosen.notes[Math.floor(Math.random()*chosen.notes.length)]);
+  return{clef:chosen.clef,notes};
+}
+
+/* ══ 画面遷移 ══ */
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  const el=document.getElementById(id);
+  el.classList.add('active');
+  el.classList.remove('slide-in'); void el.offsetWidth; el.classList.add('slide-in');
+}
+function goHome(){showScreen('home-screen');}
+function goSettings(){applySettingsUI();showScreen('settings-screen');}
+
+function goMode(mode){
+  currentMode=mode;
+  // ラベル更新
+  document.getElementById('course-mode-label').textContent=
+    mode==='teacher'?'先生モード':'自習モード';
+  document.getElementById('course-intro-text').innerHTML=
+    mode==='teacher'
+      ?'<b>先生モード：</b>生徒に音符を読ませましょう'
+      :'<b>自習モード：</b>音名ボタンで答えを入力してね！';
+  // 通り数更新
+  document.getElementById('total1').textContent=countTotal(1).toLocaleString()+'通り';
+  document.getElementById('total2').textContent=countTotal(2).toLocaleString()+'通り';
+  document.getElementById('total3').textContent=countTotal(3).toLocaleString()+'通り';
+  showScreen('course-screen');
+}
+function backToCourse(){showScreen('course-screen');}
+
+function startFlash(n){
+  currentCount=n;
+  if(currentMode==='teacher') initTeacher();
+  else                        initStudent();
+}
+
+/* ══════════════════════
+   先生モード
+══════════════════════ */
+function initTeacher(){
+  tCount=0;
+  document.getElementById('t-count').textContent='0 問';
+  document.getElementById('t-prog').style.width='0%';
+  teacherNewQ();
+  showScreen('teacher-screen');
+}
+
+function teacherNewQ(){
+  currentQ=genQuestion(currentCount);
+  document.getElementById('t-badge').textContent=
+    currentQ.clef==='treble'?'ト音記号':'ヘ音記号';
+  document.getElementById('t-answer').style.display='none';
+  document.getElementById('t-ans-btn').style.display='';
+  drawStaff('t-staff-svg',currentQ.clef,currentQ.notes);
+  const c=document.getElementById('t-staff-card');
+  c.classList.remove('card-enter');void c.offsetWidth;c.classList.add('card-enter');
+}
+
+function teacherReveal(){
+  document.getElementById('t-ans-btn').style.display='none';
+  const area=document.getElementById('t-answer');
+  area.style.display='flex';
+  area.innerHTML=currentQ.notes.map(n=>`
+    <div class="t-ans-note">
+      <div class="t-ans-kana">${n.name}</div>
+      <div class="t-ans-en">${n.en}</div>
+    </div>`).join('');
+  // サウンド
+  if(cfg.sound) playNotes(currentQ.notes);
+}
+
+function teacherNext(){
+  tCount++;
+  document.getElementById('t-count').textContent=tCount+' 問';
+  document.getElementById('t-prog').style.width=(tCount%20*5)+'%';
+  teacherNewQ();
+}
+
+/* ══════════════════════
+   自習モード
+══════════════════════ */
+function initStudent(){
+  sOk=0;sNg=0;sTotal=0;sInput=[];
+  document.getElementById('s-ok').textContent='0';
+  document.getElementById('s-ng').textContent='0';
+  document.getElementById('s-prog').style.width='0%';
+  studentNewQ();
+  showScreen('student-screen');
+}
+
+function studentNewQ(){
+  sInput=[];
+  currentQ=genQuestion(currentCount);
+  document.getElementById('s-badge').textContent=
+    currentQ.clef==='treble'?'ト音記号':'ヘ音記号';
+  document.getElementById('feedback').style.display='none';
+  document.getElementById('note-btns').style.opacity='1';
+  document.getElementById('note-btns').style.pointerEvents='';
+  updateProgressRow();
+  drawStaff('s-staff-svg',currentQ.clef,currentQ.notes);
+  const c=document.getElementById('s-staff-card');
+  c.classList.remove('card-enter');void c.offsetWidth;c.classList.add('card-enter');
+}
+
+function updateProgressRow(){
+  const row=document.getElementById('s-progress-row');
+  let html='';
+  for(let i=0;i<currentCount;i++){
+    if(i>0) html+=`<div class="ip-arrow">→</div>`;
+    if(sInput[i]){
+      html+=`<div class="ip-slot"><div class="ip-kana">${sInput[i]}</div></div>`;
+    } else {
+      html+=`<div class="ip-slot"><div class="ip-empty">＿</div></div>`;
+    }
+  }
+  row.innerHTML=html;
+}
+
+function inputNote(name){
+  if(sInput.length>=currentCount) return;
+  sInput.push(name);
+  updateProgressRow();
+  // サウンド
+  if(cfg.sound) playNote(name);
+  // 全入力完了 → 判定
+  if(sInput.length===currentCount) judgeStudent();
+}
+
+function deleteInput(){
+  if(sInput.length===0) return;
+  sInput.pop();
+  updateProgressRow();
+}
+
+function judgeStudent(){
+  document.getElementById('note-btns').style.opacity='0.4';
+  document.getElementById('note-btns').style.pointerEvents='none';
+
+  const correct=currentQ.notes.every((n,i)=>n.name===sInput[i]);
+  sTotal++;
+  if(correct) sOk++; else sNg++;
+
+  document.getElementById('s-ok').textContent=sOk;
+  document.getElementById('s-ng').textContent=sNg;
+  document.getElementById('s-prog').style.width=(sTotal%20*5)+'%';
+
+  const fb=document.getElementById('feedback');
+  fb.className='feedback-overlay '+(correct?'correct':'wrong');
+
+  document.getElementById('fb-emoji').textContent=correct?'⭐':'💪';
+  document.getElementById('fb-text').textContent=correct?'せいかい！':'もう一度！';
+
+  const ansStr=currentQ.notes.map(n=>n.name).join(' → ');
+  document.getElementById('fb-sub').textContent=
+    correct?ansStr:'こたえ：'+ansStr;
+
+  fb.style.display='flex';
+  if(cfg.sound) playNotes(currentQ.notes);
+}
+
+function studentNext(){
+  studentNewQ();
+}
+
+/* ══════════════════════
+   SVG描画
+══════════════════════ */
+function drawStaff(svgId,clef,notes){
+  const svg=document.getElementById(svgId);
+  let h='';
+  LINE_YS.forEach(y=>{
+    h+=`<line x1="14" y1="${y}" x2="${SVG_W-14}" y2="${y}" stroke="#1E1B4B" stroke-width="1.6"/>`;
+  });
+  if(clef==='treble'){
+    h+=`<text x="16" y="118" font-size="100" font-family="serif" fill="#1E1B4B" style="user-select:none">𝄞</text>`;
+  } else {
+    h+=`<text x="18" y="88" font-size="62" font-family="serif" fill="#1E1B4B" style="user-select:none">𝄢</text>`;
+  }
+  h+=`<line x1="${SVG_W-14}" y1="${LINE_YS[0]}" x2="${SVG_W-14}" y2="${LINE_YS[4]}" stroke="#1E1B4B" stroke-width="1.5"/>`;
+  const ox=90,aw=SVG_W-14-ox-20;
+  const xs=notes.length===1?[ox+aw/2]
+           :notes.length===2?[ox+aw*0.32,ox+aw*0.68]
+           :[ox+aw*0.18,ox+aw*0.5,ox+aw*0.82];
+  notes.forEach((n,i)=>{h+=drawNote(xs[i],n.y,n);});
+  svg.innerHTML=h;
+}
+
+function drawNote(x,y,note){
+  let o='';
+  const RX=9,RY=6;
+  if(note.ledger) note.ledger.forEach(ly=>{
+    o+=`<line x1="${x-16}" y1="${ly}" x2="${x+16}" y2="${ly}" stroke="#1E1B4B" stroke-width="2.2"/>`;
+  });
+  o+=`<ellipse cx="${x}" cy="${y}" rx="${RX}" ry="${RY}" fill="#1E1B4B" transform="rotate(-18,${x},${y})"/>`;
+  if(y>=MID_Y){
+    o+=`<line x1="${x+RX-1}" y1="${y-2}" x2="${x+RX-1}" y2="${y-46}" stroke="#1E1B4B" stroke-width="2.2"/>`;
+  } else {
+    o+=`<line x1="${x-RX+1}" y1="${y+2}" x2="${x-RX+1}" y2="${y+46}" stroke="#1E1B4B" stroke-width="2.2"/>`;
+  }
+  return o;
+}
+
+/* ══════════════════════
+   設定
+══════════════════════ */
+function setClef(v){
+  cfg.clef=v;saveCfg();
+  ['both','treble','bass'].forEach(k=>{
+    document.getElementById('clef-'+k).classList.toggle('active',k===v);
+  });
+}
+function setRange(el,v){
+  cfg.range=v;saveCfg();
+  document.querySelectorAll('.range-chip').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');
+}
+function toggleSound(){
+  cfg.sound=!cfg.sound;saveCfg();
+  document.getElementById('sound-toggle').classList.toggle('on',cfg.sound);
+}
+function applySettingsUI(){
+  ['both','treble','bass'].forEach(k=>{
+    document.getElementById('clef-'+k).classList.toggle('active',k===cfg.clef);
+  });
+  document.querySelectorAll('.range-chip').forEach(c=>{
+    c.classList.toggle('active',c.dataset.range===cfg.range);
+  });
+  document.getElementById('sound-toggle').classList.toggle('on',cfg.sound);
+}
+
+/* ══════════════════════
+   サウンド（Web Audio API）
+══════════════════════ */
+const NOTE_FREQ={
+  "ド":261.63,"レ":293.66,"ミ":329.63,
+  "ファ":349.23,"ソ":392.00,"ラ":440.00,"シ":493.88
+};
+let audioCtx=null;
+function getAudioCtx(){
+  if(!audioCtx) audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+  return audioCtx;
+}
+function playNote(name,when=0,dur=0.4){
+  if(!cfg.sound) return;
+  try{
+    const ctx=getAudioCtx();
+    const osc=ctx.createOscillator();
+    const gain=ctx.createGain();
+    osc.connect(gain);gain.connect(ctx.destination);
+    osc.type='sine';
+    osc.frequency.value=NOTE_FREQ[name]||440;
+    const t=ctx.currentTime+when;
+    gain.gain.setValueAtTime(0.35,t);
+    gain.gain.exponentialRampToValueAtTime(0.001,t+dur);
+    osc.start(t);osc.stop(t+dur);
+  }catch(e){}
+}
+function playNotes(notes){
+  notes.forEach((n,i)=>playNote(n.name,i*0.28));
+}
+
+/* ══ PWA ══ */
+if('serviceWorker' in navigator){
+  const sw=`self.addEventListener('install',e=>{e.waitUntil(caches.open('mf-v3').then(c=>c.addAll([location.pathname])));});self.addEventListener('fetch',e=>{e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request)));});`;
+  navigator.serviceWorker.register(URL.createObjectURL(new Blob([sw],{type:'application/javascript'}))).catch(()=>{});
+}
+
+/* ══ Init ══ */
+applySettingsUI();
+</script>
+</body>
+</html>
