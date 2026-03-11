@@ -217,7 +217,7 @@ body{
 .staff-card{
   background:var(--white);
   border-radius:var(--r);
-  padding:24px 12px 16px;
+  padding:28px 16px 24px;
   box-shadow:var(--shadow-lg);
   width:100%;
   display:flex;flex-direction:column;align-items:center;
@@ -524,7 +524,7 @@ body{
 
   <div class="teacher-body">
     <div class="staff-card" id="t-staff-card">
-      <svg id="t-staff-svg" viewBox="0 0 360 170" xmlns="http://www.w3.org/2000/svg"></svg>
+      <svg id="t-staff-svg" viewBox="0 -14 360 152" xmlns="http://www.w3.org/2000/svg"></svg>
     </div>
 
     <div class="teacher-answer" id="t-answer" style="display:none;"></div>
@@ -560,7 +560,7 @@ body{
 
     <!-- 五線カード -->
     <div class="staff-card" id="s-staff-card">
-      <svg id="s-staff-svg" viewBox="0 0 360 170" xmlns="http://www.w3.org/2000/svg"></svg>
+      <svg id="s-staff-svg" viewBox="0 -14 360 152" xmlns="http://www.w3.org/2000/svg"></svg>
     </div>
 
     <!-- 音名ボタン -->
@@ -664,14 +664,14 @@ const TREBLE_ALL=[
 ];
 // ヘ音記号: ド2(C2)〜ド3(C3) 8音
 const BASS_ALL=[
-  {name:"ド",en:"C4",y:52},
-  {name:"シ",en:"B3",y:60},
-  {name:"ラ",en:"A3",y:68},
-  {name:"ソ",en:"G3",y:76},
-  {name:"ファ",en:"F3",y:84},
-  {name:"ミ",en:"E3",y:92},
-  {name:"レ",en:"D3",y:100},
-  {name:"ド",en:"C3",y:108,ledger:[108]},
+  {name:"ド",en:"C3",y:76},
+  {name:"レ",en:"D3",y:68},
+  {name:"ミ",en:"E3",y:60},
+  {name:"ファ",en:"F3",y:52},
+  {name:"ソ",en:"G3",y:44},
+  {name:"ラ",en:"A3",y:36},
+  {name:"シ",en:"B3",y:28,ledger:[28]},
+  {name:"ド",en:"C4",y:20,ledger:[20]},
 ];
 
 /* ══ 設定 ══ */
@@ -907,21 +907,29 @@ function drawStaff(svgId,clef,notes){
   const xs=notes.length===1?[ox+aw/2]
            :notes.length===2?[ox+aw*0.32,ox+aw*0.68]
            :[ox+aw*0.18,ox+aw*0.5,ox+aw*0.82];
-  notes.forEach((n,i)=>{h+=drawNote(xs[i],n.y,n);});
+  const isWhole=(clef==='bass');
+  notes.forEach((n,i)=>{h+=drawNote(xs[i],n.y,n,isWhole);});
   svg.innerHTML=h;
 }
 
-function drawNote(x,y,note){
+function drawNote(x,y,note,whole=false){
   let o='';
   const RX=9,RY=6;
   if(note.ledger) note.ledger.forEach(ly=>{
     o+=`<line x1="${x-16}" y1="${ly}" x2="${x+16}" y2="${ly}" stroke="#1E1B4B" stroke-width="2.2"/>`;
   });
-  o+=`<ellipse cx="${x}" cy="${y}" rx="${RX}" ry="${RY}" fill="#1E1B4B" transform="rotate(-18,${x},${y})"/>`;
-  if(y>=MID_Y){
-    o+=`<line x1="${x+RX-1}" y1="${y-2}" x2="${x+RX-1}" y2="${y-46}" stroke="#1E1B4B" stroke-width="2.2"/>`;
+  if(whole){
+    // 全音符: 横長の黒楕円＋中央に縦長の白い角丸（画像通りシンプルな形）
+    o+=`<ellipse cx="${x}" cy="${y}" rx="13" ry="8" fill="#1E1B4B"/>`;
+    o+=`<rect x="${x-4.5}" y="${y-6.5}" width="9" height="13" rx="4.5" ry="4.5" fill="white" transform="rotate(-18,${x},${y})"/>`;
   } else {
-    o+=`<line x1="${x-RX+1}" y1="${y+2}" x2="${x-RX+1}" y2="${y+46}" stroke="#1E1B4B" stroke-width="2.2"/>`;
+    // 四分音符: 塗りつぶし楕円＋符幹
+    o+=`<ellipse cx="${x}" cy="${y}" rx="${RX}" ry="${RY}" fill="#1E1B4B" transform="rotate(-18,${x},${y})"/>`;
+    if(y>=MID_Y){
+      o+=`<line x1="${x+RX-1}" y1="${y-2}" x2="${x+RX-1}" y2="${y-46}" stroke="#1E1B4B" stroke-width="2.2"/>`;
+    } else {
+      o+=`<line x1="${x-RX+1}" y1="${y+2}" x2="${x-RX+1}" y2="${y+46}" stroke="#1E1B4B" stroke-width="2.2"/>`;
+    }
   }
   return o;
 }
