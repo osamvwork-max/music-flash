@@ -907,8 +907,7 @@ function drawStaff(svgId,clef,notes){
   const xs=notes.length===1?[ox+aw/2]
            :notes.length===2?[ox+aw*0.32,ox+aw*0.68]
            :[ox+aw*0.18,ox+aw*0.5,ox+aw*0.82];
-  const isWhole=(clef==='bass');
-  notes.forEach((n,i)=>{h+=drawNote(xs[i],n.y,n,isWhole);});
+  notes.forEach((n,i)=>{h+=drawNote(xs[i],n.y,n,false);});
   svg.innerHTML=h;
 }
 
@@ -925,7 +924,7 @@ function drawNote(x,y,note,whole=false){
   } else {
     // 四分音符: 塗りつぶし楕円＋符幹
     o+=`<ellipse cx="${x}" cy="${y}" rx="${RX}" ry="${RY}" fill="#1E1B4B" transform="rotate(-18,${x},${y})"/>`;
-    if(y>=MID_Y){
+    if(y>MID_Y){
       o+=`<line x1="${x+RX-1}" y1="${y-2}" x2="${x+RX-1}" y2="${y-46}" stroke="#1E1B4B" stroke-width="2.2"/>`;
     } else {
       o+=`<line x1="${x-RX+1}" y1="${y+2}" x2="${x-RX+1}" y2="${y+46}" stroke="#1E1B4B" stroke-width="2.2"/>`;
