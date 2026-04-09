@@ -463,6 +463,7 @@ body{
         </div>
         <div class="mode-arrow">›</div>
       </div>
+
     </div>
   </div>
 </div>
@@ -639,6 +640,162 @@ body{
     <div style="text-align:center;padding:16px 0;color:var(--muted);font-size:12px;">
       Music Flash v2.0
     </div>
+    <div style="text-align:center;padding:4px 0 16px;">
+      <a href="privacy-policy.html" style="font-size:12px;color:var(--muted);text-decoration:none;border-bottom:1px solid var(--line);">プライバシーポリシー</a>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════ 6. 料金プラン ══════════ -->
+<div id="pricing-screen" class="screen">
+  <div class="pg-header">
+    <button class="pg-back" onclick="goHome()">‹</button>
+    <div>
+      <div class="pg-title">先生向けプラン</div>
+      <div class="pg-sub">最初の3ヶ月無料・いつでも解約可</div>
+    </div>
+  </div>
+  <div class="scroll">
+
+    <!-- プランカード -->
+    <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:20px;">
+
+      <!-- ライト -->
+      <div style="background:var(--white);border-radius:var(--r);padding:20px;box-shadow:var(--shadow-sm);border:2px solid var(--line);">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+          <div>
+            <div style="font-size:13px;font-weight:600;color:var(--muted);">ライト</div>
+            <div style="font-size:26px;font-weight:800;color:var(--ink);">¥1,000<span style="font-size:13px;font-weight:400;color:var(--muted);">/月</span></div>
+          </div>
+          <div style="font-size:12px;color:var(--sub);background:var(--bg);padding:6px 12px;border-radius:20px;">生徒10名まで</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:7px;font-size:13px;color:var(--sub);margin-bottom:14px;">
+          <div>✓ 生徒アカウント管理</div>
+          <div>✓ 学習進捗・正答率確認</div>
+          <div style="color:var(--muted);">— レッスンメモ</div>
+          <div style="color:var(--muted);">— 優先サポート</div>
+        </div>
+        <button onclick="goAdmin()" style="width:100%;padding:13px;border-radius:var(--r-sm);background:var(--bg);border:2px solid var(--line);font-size:14px;font-weight:700;color:var(--sub);cursor:pointer;">3ヶ月無料で試す</button>
+      </div>
+
+      <!-- スタンダード（おすすめ） -->
+      <div style="background:var(--white);border-radius:var(--r);padding:20px;box-shadow:var(--shadow-lg);border:2.5px solid var(--purple);position:relative;">
+        <div style="position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--purple);color:white;font-size:11px;font-weight:700;padding:4px 16px;border-radius:20px;white-space:nowrap;">⭐ おすすめ</div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+          <div>
+            <div style="font-size:13px;font-weight:600;color:var(--purple);">スタンダード</div>
+            <div style="font-size:26px;font-weight:800;color:var(--ink);">¥2,000<span style="font-size:13px;font-weight:400;color:var(--muted);">/月</span></div>
+          </div>
+          <div style="font-size:12px;color:var(--purple);background:var(--purple-lt);padding:6px 12px;border-radius:20px;">生徒30名まで</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:7px;font-size:13px;color:var(--sub);margin-bottom:14px;">
+          <div>✓ 生徒アカウント管理</div>
+          <div>✓ 学習進捗・正答率確認</div>
+          <div>✓ レッスンメモ</div>
+          <div style="color:var(--muted);">— 優先サポート</div>
+        </div>
+        <button onclick="goAdmin()" style="width:100%;padding:13px;border-radius:var(--r-sm);background:linear-gradient(135deg,var(--purple),var(--pink));border:none;font-size:14px;font-weight:700;color:white;cursor:pointer;box-shadow:var(--shadow);">3ヶ月無料で試す →</button>
+      </div>
+
+      <!-- プロ -->
+      <div style="background:var(--white);border-radius:var(--r);padding:20px;box-shadow:var(--shadow-sm);border:2px solid var(--line);">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+          <div>
+            <div style="font-size:13px;font-weight:600;color:var(--muted);">プロ</div>
+            <div style="font-size:26px;font-weight:800;color:var(--ink);">¥3,000<span style="font-size:13px;font-weight:400;color:var(--muted);">/月</span></div>
+          </div>
+          <div style="font-size:12px;color:var(--sub);background:var(--bg);padding:6px 12px;border-radius:20px;">生徒数無制限</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:7px;font-size:13px;color:var(--sub);margin-bottom:14px;">
+          <div>✓ 生徒アカウント管理</div>
+          <div>✓ 学習進捗・正答率確認</div>
+          <div>✓ レッスンメモ</div>
+          <div>✓ 優先サポート</div>
+        </div>
+        <button onclick="goAdmin()" style="width:100%;padding:13px;border-radius:var(--r-sm);background:var(--bg);border:2px solid var(--line);font-size:14px;font-weight:700;color:var(--sub);cursor:pointer;">3ヶ月無料で試す</button>
+      </div>
+
+    </div>
+    <div style="text-align:center;font-size:12px;color:var(--muted);padding-bottom:8px;">クレジットカード不要 · 途中解約可</div>
+  </div>
+</div>
+
+<!-- ══════════ 7. 管理ダッシュボード ══════════ -->
+<div id="admin-screen" class="screen">
+  <div class="pg-header">
+    <button class="pg-back" onclick="showScreen('pricing-screen')">‹</button>
+    <div>
+      <div class="pg-title">管理画面</div>
+      <div class="pg-sub">桜ピアノ教室</div>
+    </div>
+    <button onclick="showAdminTab('dashboard')" id="admin-tab-dash" style="margin-left:auto;padding:6px 12px;border-radius:var(--r-xs);border:none;background:var(--purple);color:white;font-size:12px;font-weight:700;cursor:pointer;">📊</button>
+    <button onclick="showAdminTab('students')" id="admin-tab-stu" style="padding:6px 12px;border-radius:var(--r-xs);border:none;background:var(--bg);color:var(--sub);font-size:12px;font-weight:700;cursor:pointer;">👥</button>
+    <button onclick="showAdminTab('memo')" id="admin-tab-memo" style="padding:6px 12px;border-radius:var(--r-xs);border:none;background:var(--bg);color:var(--sub);font-size:12px;font-weight:700;cursor:pointer;">📝</button>
+  </div>
+
+  <!-- ダッシュボードタブ -->
+  <div id="admin-dashboard" class="scroll">
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px;">
+      <div style="background:var(--white);border-radius:var(--r-sm);padding:14px;box-shadow:var(--shadow-sm);text-align:center;">
+        <div style="font-size:11px;color:var(--muted);margin-bottom:4px;">生徒数</div>
+        <div style="font-size:24px;font-weight:800;color:var(--purple);">12</div>
+        <div style="font-size:10px;color:var(--muted);">今月 +2名</div>
+      </div>
+      <div style="background:var(--white);border-radius:var(--r-sm);padding:14px;box-shadow:var(--shadow-sm);text-align:center;">
+        <div style="font-size:11px;color:var(--muted);margin-bottom:4px;">平均正答率</div>
+        <div style="font-size:24px;font-weight:800;color:var(--teal);">74%</div>
+        <div style="font-size:10px;color:var(--muted);">先月比 +6%</div>
+      </div>
+      <div style="background:var(--white);border-radius:var(--r-sm);padding:14px;box-shadow:var(--shadow-sm);text-align:center;">
+        <div style="font-size:11px;color:var(--muted);margin-bottom:4px;">今週練習</div>
+        <div style="font-size:24px;font-weight:800;color:var(--pink);">38</div>
+        <div style="font-size:10px;color:var(--muted);">回（全生徒）</div>
+      </div>
+    </div>
+
+    <div style="background:var(--white);border-radius:var(--r);padding:18px;box-shadow:var(--shadow-sm);margin-bottom:14px;">
+      <div style="font-size:14px;font-weight:700;color:var(--ink);margin-bottom:14px;">生徒の進捗サマリー</div>
+      <div id="dash-student-list"></div>
+    </div>
+
+    <div style="background:var(--white);border-radius:var(--r);padding:18px;box-shadow:var(--shadow-sm);">
+      <div style="font-size:14px;font-weight:700;color:var(--ink);margin-bottom:10px;">問題設定（教室共通）</div>
+      <div style="font-size:12px;color:var(--sub);margin-bottom:6px;">音部記号</div>
+      <div style="display:flex;gap:8px;margin-bottom:12px;">
+        <div onclick="setClef('both')" style="flex:1;padding:8px;border-radius:var(--r-xs);background:var(--purple-lt);border:2px solid var(--purple);font-size:13px;font-weight:700;color:var(--purple);text-align:center;cursor:pointer;">両方</div>
+        <div onclick="setClef('treble')" style="flex:1;padding:8px;border-radius:var(--r-xs);background:var(--bg);border:2px solid var(--line);font-size:13px;font-weight:700;color:var(--sub);text-align:center;cursor:pointer;">ト音のみ</div>
+        <div onclick="setClef('bass')" style="flex:1;padding:8px;border-radius:var(--r-xs);background:var(--bg);border:2px solid var(--line);font-size:13px;font-weight:700;color:var(--sub);text-align:center;cursor:pointer;">ヘ音のみ</div>
+      </div>
+      <div style="font-size:12px;color:var(--sub);margin-bottom:6px;">音域</div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;">
+        <div style="padding:6px 14px;border-radius:20px;background:var(--purple-lt);border:2px solid var(--purple);font-size:12px;font-weight:600;color:var(--purple);">ド〜ラ</div>
+        <div style="padding:6px 14px;border-radius:20px;background:var(--bg);border:2px solid var(--line);font-size:12px;font-weight:600;color:var(--sub);">ド〜ソ</div>
+        <div style="padding:6px 14px;border-radius:20px;background:var(--bg);border:2px solid var(--line);font-size:12px;font-weight:600;color:var(--sub);">すべて</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 生徒管理タブ -->
+  <div id="admin-students" class="scroll" style="display:none;">
+    <div style="display:flex;gap:10px;margin-bottom:16px;">
+      <input id="new-student-name" type="text" placeholder="生徒の名前を入力" style="flex:1;padding:12px 14px;border-radius:var(--r-sm);border:2px solid var(--line);font-size:14px;background:var(--white);color:var(--ink);">
+      <button onclick="addStudent()" style="padding:12px 18px;border-radius:var(--r-sm);background:var(--purple);border:none;color:white;font-size:14px;font-weight:700;cursor:pointer;">追加</button>
+    </div>
+    <div id="student-list-admin" style="display:flex;flex-direction:column;gap:10px;"></div>
+  </div>
+
+  <!-- レッスンメモタブ -->
+  <div id="admin-memo" class="scroll" style="display:none;">
+    <div style="background:var(--white);border-radius:var(--r);padding:16px;box-shadow:var(--shadow-sm);margin-bottom:14px;">
+      <div style="font-size:13px;font-weight:700;color:var(--ink);margin-bottom:10px;">メモを追加</div>
+      <select id="memo-student" style="width:100%;padding:10px;border-radius:var(--r-sm);border:2px solid var(--line);font-size:14px;color:var(--ink);background:var(--white);margin-bottom:8px;">
+        <option value="">生徒を選択...</option>
+      </select>
+      <textarea id="memo-text-input" placeholder="レッスンの内容・気づきを記録..." style="width:100%;padding:10px;border-radius:var(--r-sm);border:2px solid var(--line);font-size:13px;color:var(--ink);background:var(--white);height:80px;resize:none;font-family:inherit;"></textarea>
+      <button onclick="addMemo()" style="width:100%;margin-top:8px;padding:13px;border-radius:var(--r-sm);background:linear-gradient(135deg,var(--purple),var(--pink));border:none;color:white;font-size:14px;font-weight:700;cursor:pointer;">保存</button>
+    </div>
+    <div id="memo-list" style="display:flex;flex-direction:column;gap:10px;"></div>
   </div>
 </div>
 
@@ -990,6 +1147,149 @@ function playNote(name,when=0,dur=0.4){
 }
 function playNotes(notes){
   notes.forEach((n,i)=>playNote(n.name,i*0.28));
+}
+
+/* ══════════════════════════════════
+   管理画面
+══════════════════════════════════ */
+
+// 生徒データ（ローカルストレージ）
+function loadStudents(){
+  try{return JSON.parse(localStorage.getItem('mf_students')||'null')||[
+    {id:1,name:'さくら',rate:88,lastLesson:'4/3',status:'好調'},
+    {id:2,name:'けんた',rate:62,lastLesson:'4/2',status:'要練習'},
+    {id:3,name:'みく',rate:45,lastLesson:'4/1',status:'苦手あり'},
+    {id:4,name:'りょう',rate:79,lastLesson:'3/30',status:'好調'},
+    {id:5,name:'はな',rate:91,lastLesson:'3/28',status:'好調'},
+  ];}catch(e){return[];}
+}
+function saveStudents(s){try{localStorage.setItem('mf_students',JSON.stringify(s));}catch(e){}}
+
+function loadMemos(){
+  try{return JSON.parse(localStorage.getItem('mf_memos')||'null')||[
+    {id:1,student:'さくら',date:'4/3',text:'ヘ音記号のファ〜ラが安定してきた。次回は3音コースへ'},
+    {id:2,student:'けんた',date:'4/2',text:'ト音記号のド・レが混乱しやすい。繰り返し練習が必要'},
+    {id:3,student:'みく',date:'4/1',text:'初回レッスン。ト音記号ド〜ソから開始。積極的に取り組んでいる'},
+  ];}catch(e){return[];}
+}
+function saveMemos(m){try{localStorage.setItem('mf_memos',JSON.stringify(m));}catch(e){}}
+
+let adminStudents=loadStudents();
+let adminMemos=loadMemos();
+
+function goAdmin(){
+  renderDashStudents();
+  renderStudentList();
+  renderMemoList();
+  updateMemoSelect();
+  showAdminTab('dashboard');
+  showScreen('admin-screen');
+}
+
+function showAdminTab(tab){
+  ['dashboard','students','memo'].forEach(t=>{
+    document.getElementById('admin-'+t).style.display = t===tab?'':'none';
+    const btn=document.getElementById('admin-tab-'+{dashboard:'dash',students:'stu',memo:'memo'}[t]);
+    if(btn){btn.style.background=t===tab?'var(--purple)':'var(--bg)';btn.style.color=t===tab?'white':'var(--sub)';}
+  });
+}
+
+function getStatusColor(s){
+  if(s==='好調') return {bg:'var(--green-lt)',col:'var(--green)'};
+  if(s==='要練習') return {bg:'var(--amber-lt)',col:'var(--amber)'};
+  return {bg:'var(--red-lt)',col:'var(--red)'};
+}
+
+function renderDashStudents(){
+  const el=document.getElementById('dash-student-list');
+  if(!el) return;
+  el.innerHTML=adminStudents.map(s=>{
+    const c=getStatusColor(s.status);
+    return `<div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);">
+      <div style="width:36px;height:36px;border-radius:50%;background:var(--purple-lt);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:var(--purple);flex-shrink:0;">${s.name[0]}</div>
+      <div style="flex:1;">
+        <div style="font-size:13px;font-weight:700;color:var(--ink);">${s.name}</div>
+        <div style="font-size:11px;color:var(--muted);">前回：${s.lastLesson}</div>
+      </div>
+      <div style="width:72px;">
+        <div style="font-size:11px;color:var(--sub);text-align:right;margin-bottom:3px;">${s.rate}%</div>
+        <div style="height:5px;background:var(--line);border-radius:3px;overflow:hidden;"><div style="height:100%;width:${s.rate}%;background:${s.rate>=80?'var(--green)':s.rate>=60?'var(--amber)':'var(--red)'};border-radius:3px;"></div></div>
+      </div>
+      <div style="font-size:10px;padding:4px 8px;border-radius:12px;background:${c.bg};color:${c.col};font-weight:700;flex-shrink:0;">${s.status}</div>
+    </div>`;
+  }).join('');
+}
+
+function renderStudentList(){
+  const el=document.getElementById('student-list-admin');
+  if(!el) return;
+  el.innerHTML=adminStudents.map(s=>{
+    const c=getStatusColor(s.status);
+    return `<div style="background:var(--white);border-radius:var(--r-sm);padding:14px 16px;box-shadow:var(--shadow-sm);display:flex;align-items:center;gap:12px;">
+      <div style="width:40px;height:40px;border-radius:50%;background:var(--purple-lt);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:var(--purple);flex-shrink:0;">${s.name[0]}</div>
+      <div style="flex:1;">
+        <div style="font-size:15px;font-weight:700;color:var(--ink);">${s.name}</div>
+        <div style="font-size:11px;color:var(--muted);">正答率 ${s.rate}% · 前回 ${s.lastLesson}</div>
+      </div>
+      <div style="font-size:11px;padding:4px 10px;border-radius:12px;background:${c.bg};color:${c.col};font-weight:700;">${s.status}</div>
+      <button onclick="deleteStudent(${s.id})" style="width:30px;height:30px;border-radius:8px;border:none;background:var(--red-lt);color:var(--red);font-size:14px;cursor:pointer;flex-shrink:0;">×</button>
+    </div>`;
+  }).join('');
+}
+
+function addStudent(){
+  const inp=document.getElementById('new-student-name');
+  const name=inp.value.trim();
+  if(!name) return;
+  const newS={id:Date.now(),name,rate:0,lastLesson:'未受講',status:'要練習'};
+  adminStudents.push(newS);
+  saveStudents(adminStudents);
+  inp.value='';
+  renderStudentList();
+  renderDashStudents();
+  updateMemoSelect();
+}
+
+function deleteStudent(id){
+  adminStudents=adminStudents.filter(s=>s.id!==id);
+  saveStudents(adminStudents);
+  renderStudentList();
+  renderDashStudents();
+  updateMemoSelect();
+}
+
+function renderMemoList(){
+  const el=document.getElementById('memo-list');
+  if(!el) return;
+  const sorted=[...adminMemos].reverse();
+  el.innerHTML=sorted.map(m=>`
+    <div style="background:var(--white);border-radius:var(--r-sm);padding:14px 16px;box-shadow:var(--shadow-sm);">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+        <div style="width:26px;height:26px;border-radius:50%;background:var(--purple-lt);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--purple);">${m.student[0]}</div>
+        <span style="font-size:13px;font-weight:700;color:var(--ink);">${m.student}</span>
+        <span style="font-size:11px;color:var(--muted);margin-left:auto;">${m.date}</span>
+      </div>
+      <div style="font-size:13px;color:var(--sub);line-height:1.6;">${m.text}</div>
+    </div>`).join('');
+}
+
+function updateMemoSelect(){
+  const sel=document.getElementById('memo-student');
+  if(!sel) return;
+  sel.innerHTML='<option value="">生徒を選択...</option>'+adminStudents.map(s=>`<option value="${s.name}">${s.name}</option>`).join('');
+}
+
+function addMemo(){
+  const student=document.getElementById('memo-student').value;
+  const text=document.getElementById('memo-text-input').value.trim();
+  if(!student||!text) return;
+  const today=new Date();
+  const date=`${today.getMonth()+1}/${today.getDate()}`;
+  adminMemos.push({id:Date.now(),student,date,text});
+  saveMemos(adminMemos);
+  document.getElementById('memo-text-input').value='';
+  document.getElementById('memo-student').value='';
+  renderMemoList();
 }
 
 /* ══ PWA ══ */
